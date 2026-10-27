@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[제휴 기획안 부속] 섭외 대상 인플루언서 풀 분석 보고서</title>
+    <style>
+        :root {
+            /* 메인 기획서 블루 시스템 */
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --primary-dark: #1d4ed8;
+            /* 강조 포인트 */
+            --accent-red: #ef4444;
+            --accent-red-bg: #fef2f2;
+            --accent-red-text: #b91c1c;
+            --accent-green: #10b981;
+            --accent-green-bg: #ecfdf5;
+            --accent-green-text: #047857;
+            /* 모노톤 */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.5;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--gray-900) 0%, #1e3a8a 100%);
+            color: #ffffff;
+            padding: 36px 40px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        header h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            max-width: 900px;
+        }
+
+        .meta-info {
+            margin-top: 14px;
+            font-size: 0.85rem;
+            color: #93c5fd;
+            font-weight: 500;
+        }
+
+        main { padding: 32px 36px; }
+        section { margin-bottom: 36px; }
+        section:last-child { margin-bottom: 0; }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--gray-100);
+            padding-bottom: 10px;
+        }
+
+        h2 .num {
+            background-color: var(--primary);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .callout {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            color: var(--primary-dark);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        /* ---------------- 카드 리스트 시스템 ---------------- */
+        .creator-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .creator-card {
+            background: #ffffff;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.15s ease;
+        }
+        .creator-card:hover {
+            border-color: #93c5fd;
+        }
+
+        /* 카드 상단: 정량 지표 헤더 바 */
+        .card-top-bar {
+            background: var(--gray-50);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .creator-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .creator-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+        .creator-name:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .stats-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray-600);
+        }
+        .stat-item strong {
+            color: var(--gray-900);
+            font-weight: 700;
+        }
+
+        /* 조회수 배지 인라인 */
+        .view-stat-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .view-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: #ffffff;
+            border: 1px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+        .view-pill.long {
+            border-color: #fca5a5;
+            background: var(--accent-red-bg);
+            color: var(--accent-red-text);
+            font-weight: 700;
+        }
+
+        /* 카드 본문: 50:50 분할 그리드 */
+        .card-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 16px 20px;
+            gap: 20px;
+            background: #ffffff;
+        }
+
+        .card-col {
+            display: flex;
+            flex-direction: column;
+        }
+        .card-col.right {
+            padding-left: 20px;
+            border-left: 1px dashed var(--gray-200);
+        }
+
+        .col-caption {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .col-caption.blue { color: var(--primary-dark); }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .feature-list li {
+            position: relative;
+            padding-left: 12px;
+            margin-bottom: 4px;
+            font-size: 0.83rem;
+            color: var(--gray-700);
+            line-height: 1.45;
+        }
+        .feature-list li:last-child { margin-bottom: 0; }
+        .feature-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .format-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .role-tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .role-tag.red { background-color: var(--accent-red-bg); color: var(--accent-red-text); }
+        .role-tag.blue { background-color: var(--primary-light); color: var(--primary-dark); }
+        .role-tag.green { background-color: var(--accent-green-bg); color: var(--accent-green-text); }
+
+        .role-name {
+            font-weight: 700;
+            color: var(--gray-900);
+            font-size: 0.9rem;
+        }
+        .role-desc {
+            font-size: 0.82rem;
+            color: var(--gray-600);
+            line-height: 1.45;
+        }
+
+        /* ---------------- 하단 전략 영역 ---------------- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card.highlight {
+            border-color: #bfdbfe;
+            background-color: #f8fbff;
+        }
+
+        .card-header {
+            font-weight: 700;
+            font-size: 0.98rem;
+            margin-bottom: 10px;
+            color: var(--gray-900);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer {
+            border-top: 1px solid var(--gray-200);
+            padding: 20px 40px;
+            background-color: var(--gray-50);
+            color: var(--gray-600);
+            font-size: 0.83rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 860px) {
+            .card-body-grid { grid-template-columns: 1fr; }
+            .card-col.right { padding-left: 0; border-left: none; border-top: 1px dashed var(--gray-200); padding-top: 14px; }
+            .stats-group { flex-wrap: wrap; gap: 8px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            main { padding: 20px; }
+            header { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="badge">제휴 기획안 부속 문서</div>
+        <h1>아이템매니아 X 리니지 클래식 섭외 대상 인플루언서 풀 분석</h1>
+        <p>'스펙업 러브하우스' 프로모션 기획 시 연계 가능한 아이템매니아 배너 제휴 스트리머 5인의 채널 지표 및 실행 역할 분석 데이터입니다.</p>
+        <div class="meta-info">기획 및 작성 : 강은혜 | 데이터 기준 : 유튜브 공개 채널 지표 및 최근 1개월 실측 영상 분석</div>
+    </header>
+
+    <main>
+        <div class="callout">
+            <strong>선정 기준:</strong> 아이템매니아 공식 배너 제휴를 집행 중인 채널 중, 리니지 클래식 코어 시청층 비중이 높고 <strong>프로모션 진행 시</strong> 즉각적인 방송 동시 시청자 결집과 플랫폼 실거래 전환 유도가 가능한 스트리머 5인을 선별했습니다.
+        </div>
+
+        <section>
+            <h2><span class="num">1</span> 채널별 정량 데이터 및 프로모션 매칭</h2>
+            
+            <div class="creator-list">
+                
+                <!-- 1. 똘끼 -->
+                <div class="creator-card">
+                    <div class="card-top-bar">
+                        <div class="creator-profile">
+                            <a href="https://www.youtube.com/@%EB%98%98%EB%81%BC100" target="_blank" class="creator-name">똘끼 ↗</a>
+                        </div>
+                        <div class="stats-group">
+                            <span class="stat-item">구독자 <strong>32.6만</strong></span>
+                            <span class="stat-item">평균 라이브 <strong>8,000 ~ 15,000명</strong></span>
+                            <div class="view-stat-group">
+                                <span class="view-pill long">롱폼 25만~45만</span>
+                                <span class="view-pill">다시보기 15만~35만</span>
+                                <span class="view-pill">쇼츠 15만~40만+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body-grid">
+                        <div class="card-col">
+                            <div class="col-caption">채널 특성 및 시청층 분석</div>
+                            <ul class="feature-list">
+                                <li>리니지 클래식 최상위 화제성 및 압도적 조회수 규모 보유</li>
+                                <li>타이트한 미션 진행 시 몰입도 및 리액션 우수</li>
+                                <li>대형 혈맹 군주로 혈원 대상 깜짝 스펙업 명분 충분</li>
+                            </ul>
+                        </div>
+                        <div class="card-col right">
+                            <div class="col-caption blue">프로모션 추천 포맷</div>
+                            <div class="format-header">
+                                <span class="role-tag red">가성비 챌린지</span>
+                                <span class="role-name">한정 예산 극효율 세팅</span>
+                            </div>
+                            <div class="role-desc">제한된 예산 캡 내에서 매니아 최저가 매물 조합으로 실전 성능을 극대화하는 미션형 쇼케이스</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 이문주 -->
+                <div class="creator-card">
+                    <div class="card-top-bar">
+                        <div class="creator-profile">
+                            <a href="https://www.youtube.com/@%EC%9D%B4%EB%AC%B8%EC%A3%BC" target="_blank" class="creator-name">이문주 ↗</a>
+                        </div>
+                        <div class="stats-group">
+                            <span class="stat-item">구독자 <strong>24.5만</strong></span>
+                            <span class="stat-item">평균 라이브 <strong>4,000 ~ 7,000명</strong></span>
+                            <div class="view-stat-group">
+                                <span class="view-pill long">롱폼 10만~25만</span>
+                                <span class="view-pill">다시보기 4만~8만</span>
+                                <span class="view-pill">쇼츠 6만~18만</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body-grid">
+                        <div class="card-col">
+                            <div class="col-caption">채널 특성 및 시청층 분석</div>
+                            <ul class="feature-list">
+                                <li>사연 인터뷰 중심의 능숙한 예능 토크 진행 역량 독보적</li>
+                                <li>자연스러운 플랫폼 노출 및 스폰서십 멘트 소화력 우수</li>
+                                <li>감동과 유머를 결합한 스토리텔링 강점</li>
+                            </ul>
+                        </div>
+                        <div class="card-col right">
+                            <div class="col-caption blue">프로모션 추천 포맷</div>
+                            <div class="format-header">
+                                <span class="role-tag blue">스토리텔링</span>
+                                <span class="role-name">사연 맞춤 리모델링</span>
+                            </div>
+                            <div class="role-desc">공헌도 높은 혈원의 사연을 풀고 필수 장비를 지원하는 정통 예능형 러브하우스 포맷</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 내가수영TV -->
+                <div class="creator-card">
+                    <div class="card-top-bar">
+                        <div class="creator-profile">
+                            <a href="https://www.youtube.com/@%EB%82%B4%EA%B0%80%EC%88%98%EC%98%81TV" target="_blank" class="creator-name">내가수영TV ↗</a>
+                        </div>
+                        <div class="stats-group">
+                            <span class="stat-item">구독자 <strong>10.8만</strong></span>
+                            <span class="stat-item">평균 라이브 <strong>1,500 ~ 3,000명</strong></span>
+                            <div class="view-stat-group">
+                                <span class="view-pill long">롱폼 2만~3만</span>
+                                <span class="view-pill">다시보기 8천~1.8만</span>
+                                <span class="view-pill">쇼츠 1만~3만</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body-grid">
+                        <div class="card-col">
+                            <div class="col-caption">채널 특성 및 시청층 분석</div>
+                            <ul class="feature-list">
+                                <li>최근 1개월 롱폼 2~3만 회 안정적 유지로 화제성 상승세</li>
+                                <li>혈맹원 및 코어 팬덤 간 유대감이 높아 사연 호응도 탁월</li>
+                                <li>프로모션 협조도 및 진행 관여도 우수</li>
+                            </ul>
+                        </div>
+                        <div class="card-col right">
+                            <div class="col-caption blue">프로모션 추천 포맷</div>
+                            <div class="format-header">
+                                <span class="role-tag blue">혈원 밀착형</span>
+                                <span class="role-name">사연 스펙업 세팅</span>
+                            </div>
+                            <div class="role-desc">팬덤 유대감을 활용한 실질적 혈원 지원 및 플랫폼 거래 인터페이스 집중 노출</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 원재TV -->
+                <div class="creator-card">
+                    <div class="card-top-bar">
+                        <div class="creator-profile">
+                            <a href="https://www.youtube.com/@%EC%9B%90%EC%9E%ACTV/videos" target="_blank" class="creator-name">원재TV ↗</a>
+                        </div>
+                        <div class="stats-group">
+                            <span class="stat-item">구독자 <strong>10.5만</strong></span>
+                            <span class="stat-item">평균 라이브 <strong>2,000 ~ 4,000명</strong></span>
+                            <div class="view-stat-group">
+                                <span class="view-pill long">롱폼 2만~4만</span>
+                                <span class="view-pill">다시보기 1만~2.5만</span>
+                                <span class="view-pill">쇼츠 1.5만~3.5만</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body-grid">
+                        <div class="card-col">
+                            <div class="col-caption">채널 특성 및 시청층 분석</div>
+                            <ul class="feature-list">
+                                <li>장시간 라이브 송출 기반 높은 충성 시청자 체류 시간</li>
+                                <li>인게임 거래 시세 및 실시간 매니아 매물 모니터링 능숙</li>
+                                <li>프로모션 룰 준수 및 일정 조율 안정성 확보</li>
+                            </ul>
+                        </div>
+                        <div class="card-col right">
+                            <div class="col-caption blue">프로모션 추천 포맷</div>
+                            <div class="format-header">
+                                <span class="role-tag green">실시간 커머스</span>
+                                <span class="role-name">라이브 매물 쇼핑</span>
+                            </div>
+                            <div class="role-desc">실시간 최저가 탐색 화면 노출 및 혈원 장비 구매 전 과정 송출을 통한 실거래 유도</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 쌈용 -->
+                <div class="creator-card">
+                    <div class="card-top-bar">
+                        <div class="creator-profile">
+                            <a href="https://www.youtube.com/@SSAMYONG/streams" target="_blank" class="creator-name">쌈용 ↗</a>
+                        </div>
+                        <div class="stats-group">
+                            <span class="stat-item">구독자 <strong>9.4만</strong></span>
+                            <span class="stat-item">평균 라이브 <strong>1,500 ~ 3,000명</strong></span>
+                            <div class="view-stat-group">
+                                <span class="view-pill long">롱폼 1.5만~3만</span>
+                                <span class="view-pill">다시보기 8천~1.8만</span>
+                                <span class="view-pill">쇼츠 1만~3.5만</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body-grid">
+                        <div class="card-col">
+                            <div class="col-caption">채널 특성 및 시청층 분석</div>
+                            <ul class="feature-list">
+                                <li>전장 및 사냥터 실전 효율 분석 특화로 전문 시청층 보유</li>
+                                <li>옵션별 가성비 비교 및 실무적 견적 진단에 전문성 보유</li>
+                                <li>실제 유저 기준 매물 분석에 대한 높은 신뢰도</li>
+                            </ul>
+                        </div>
+                        <div class="card-col right">
+                            <div class="col-caption blue">프로모션 추천 포맷</div>
+                            <div class="format-header">
+                                <span class="role-tag green">실속 분석</span>
+                                <span class="role-name">가성비 최적화 세팅</span>
+                            </div>
+                            <div class="role-desc">실제 매니아 매물 비교 및 실전 성능 검증을 통한 실거래 유입 촉진</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2><span class="num">2</span> 섭외 운영 전략 (포맷 및 목적별 투트랙 배분)</h2>
+            <div class="grid-2">
+                <div class="card highlight">
+                    <div class="card-header">
+                        <span>Track A : 대세감 조성 & 쇼츠 바이럴</span>
+                        <span class="role-tag red">화제성 견인</span>
+                    </div>
+                    <p style="font-size:0.92rem; margin-bottom:8px; font-weight:700; color:var(--gray-900);">똘끼 · 이문주</p>
+                    <ul class="feature-list">
+                        <li><strong>최대 파급력 쇼케이스:</strong> 대규모 시청자 결집력을 활용해 '아이템매니아 러브하우스' 포맷의 대세감 형성</li>
+                        <li><strong>알고리즘 확산:</strong> 미션 결과와 리액션을 숏폼으로 가공하여 플랫폼 브랜드 인지도 극대화</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span>Track B : 혈원 밀착 스펙업 & 실거래 전환</span>
+                        <span class="role-tag green">실거래 유입</span>
+                    </div>
+                    <p style="font-size:0.92rem; margin-bottom:8px; font-weight:700; color:var(--gray-900);">내가수영TV · 원재TV · 쌈용</p>
+                    <ul class="feature-list">
+                        <li><strong>체감형 실전 세팅:</strong> 일반 유저가 따라 살 수 있는 현실적 가성비 매물 탐색 집중</li>
+                        <li><strong>지속적 거래 노출:</strong> 장시간 라이브 방송을 활용해 매니아 거래 인터페이스 각인 및 실구매 전환 유도</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>아이템매니아 제휴 마케팅 기획 | 인플루언서 섭외 리스트</div>
+        <div>작성자: 강은혜</div>
+    </footer>
+</div>
+
+</body>
+</html>
